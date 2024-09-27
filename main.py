@@ -28,9 +28,9 @@ print("""___________                                       .__
 
 print("A random 5 letter word has been selected for you, discover it. MUAHAHAHA 😈😈😈")
 print("""
-+ CORRECT
-- WRONG POSITION
-x WRONG
+🟩 CORRECT
+🟨 WRONG POSITION
+🟥 WRONG
 """)
 
 # Code...
