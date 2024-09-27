@@ -3,11 +3,13 @@ import json
 import random as rd
 
 response = ""
+repeat = 0
 
 # Opening the archive of words,
 with open('list.json', 'r') as file:
     file = json.load(file)
     words = file["words"]
+    valid_guess = file["validGuess"]
     win_messages = file["winMessages"]
 
 # Choosing a random word.
@@ -32,23 +34,29 @@ x WRONG
 """)
 
 # Code...
-for i in range(5):
+while True:
 
-    sliced_attempt = list(input(""))
+    attempt = input("")
+    sliced_attempt = list(attempt)
     set_sliced_attempt = set(sliced_attempt)
     set_sliced_selected_word = set(sliced_selected_word)
     upper_intersection = [letter.upper() for letter in (set_sliced_attempt & set_sliced_selected_word)]
 
-    for x, letter in enumerate(sliced_attempt):
-        if letter.upper() == sliced_selected_word[x].upper():
-            response += "+"
-        elif letter.upper() in upper_intersection:
-            response += "-"
-        else:
-            response += "x"
+    if attempt in valid_guess:
+        for x, letter in enumerate(sliced_attempt):
+            if letter.upper() == sliced_selected_word[x].upper():
+                response += "🟩"
+            elif letter.upper() in upper_intersection:
+                response += "🟨"
+            else:
+                response += "🟥"
+        repeat += 1
+    else:
+        print("Invalid word, please try again. >:C")
 
-    print(response + "\n" if response != "+"*5 else rd.choice(win_messages))
-    if response == "+"*5: break;
+    if repeat >= 5: break;
+    print(response + "\n" if response != "🟩"*5 else rd.choice(win_messages))
+    if response == "🟩"*5: break;
     response = ""
 
-print(f"YOU LOST :( The word was >>> {selected_word.upper()} <<< Don't be discouraged, try again!" if response != "+"*5 else "")
+print(f"YOU LOST :( The word was >>> {selected_word.upper()} <<< Don't be discouraged, try again!" if response != "🟩"*5 else "")
